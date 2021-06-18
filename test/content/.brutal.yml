@@ -1,0 +1,67 @@
+---
+header: |
+  #!/usr/bin/env ruby
+  # frozen_string_literal: true
+
+  require "simplecov"
+
+  ::SimpleCov.command_name "Brutal test suite"
+  ::SimpleCov.start
+
+  require "./../../lib/test_tube"
+
+  module Matcher
+    class BeTheAnswer
+      def expected
+        42
+      end
+
+      def matches?
+        expected.equal?(yield)
+      end
+    end
+
+    class RaiseException
+      attr_reader :expected
+
+      def initialize(expected)
+        @expected = expected
+      end
+
+      def matches?(*, **)
+        yield
+      rescue expected => _e
+        true
+      else
+        false
+      end
+    end
+  end
+
+subject: |
+  TestTube.content(
+    %{input},
+    isolation: %{isolation},
+    matcher: %{matcher},
+    negate: %{negate}
+  )
+
+contexts:
+  input:
+    - '-> { "101010".to_i(2) }'
+    - "-> { 1 / 0 }"
+  isolation:
+    - false
+    - true
+  matcher:
+    - "Matcher::BeTheAnswer.new"
+    - "Matcher::RaiseException.new(TypeError)"
+    - "Matcher::RaiseException.new(ZeroDivisionError)"
+  negate:
+    - false
+    - true
+
+actuals:
+  - "%{subject}.actual.class"
+  - "%{subject}.error.class"
+  - "%{subject}.got"
