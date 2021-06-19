@@ -39,7 +39,7 @@ end
 # ------------------------------------------------------------------------------
 
 actual = begin
-  TestTube.liquid(
+  TestTube.pass(
     "101010".to_i(2),
     matcher: Matcher::BeTheAnswer.new,
     negate: false
@@ -53,7 +53,7 @@ raise if actual.got != true
 # ------------------------------------------------------------------------------
 
 actual = begin
-  TestTube.liquid(
+  TestTube.pass(
     "101010".to_i(2),
     matcher: Matcher::BeTheAnswer.new,
     negate: true
@@ -67,7 +67,7 @@ raise if actual.got != false
 # ------------------------------------------------------------------------------
 
 actual = begin
-  TestTube.liquid(
+  TestTube.pass(
     "101010".to_i(2),
     matcher: Matcher::RaiseException.new(TypeError),
     negate: false
@@ -81,7 +81,7 @@ raise if actual.got != false
 # ------------------------------------------------------------------------------
 
 actual = begin
-  TestTube.liquid(
+  TestTube.pass(
     "101010".to_i(2),
     matcher: Matcher::RaiseException.new(TypeError),
     negate: true
@@ -95,7 +95,7 @@ raise if actual.got != true
 # ------------------------------------------------------------------------------
 
 actual = begin
-  TestTube.liquid(
+  TestTube.pass(
     "101010".to_i(2),
     matcher: Matcher::RaiseException.new(ZeroDivisionError),
     negate: false
@@ -109,7 +109,7 @@ raise if actual.got != false
 # ------------------------------------------------------------------------------
 
 actual = begin
-  TestTube.liquid(
+  TestTube.pass(
     "101010".to_i(2),
     matcher: Matcher::RaiseException.new(ZeroDivisionError),
     negate: true

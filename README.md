@@ -28,8 +28,8 @@ gem install test_tube
 
 ## Usage
 
-Let's experiment the answer to the Ultimate Question of Life, the Universe, and
-Everything:
+Assuming we'd like to experiment on the answer to the Ultimate Question of Life,
+the Universe, and Everything with the following matcher:
 
 ```ruby
 class BeTheAnswer
@@ -37,14 +37,33 @@ class BeTheAnswer
     42.equal?(yield)
   end
 end
+```
 
-tt = TestTube.content(
+One possibility would be to challenge a whole block of code:
+
+```ruby
+tt = TestTube.invoke(
   -> { "101010".to_i(2) },
   isolation: false,
   matcher:   BeTheAnswer.new,
   negate:    false
 )
 # => #<TestTube::Content:0x00007fb3b328b248 @actual=42, @got=true, @error=nil>
+
+tt.actual # => 42
+tt.error  # => nil
+tt.got    # => true
+```
+
+An alternative would be to challenge a value passed as a parameter:
+
+```ruby
+tt = TestTube.pass(
+  "101010".to_i(2),
+  matcher: BeTheAnswer.new,
+  negate:  false
+)
+# => #<TestTube::Passer:0x00007f85c229c2d8 @actual=42, @got=true>
 
 tt.actual # => 42
 tt.error  # => nil

@@ -39,20 +39,15 @@ header: |
   end
 
 subject: |
-  TestTube.content(
+  TestTube.pass(
     %{input},
-    isolation: %{isolation},
     matcher: %{matcher},
     negate: %{negate}
   )
 
 contexts:
   input:
-    - '-> { "101010".to_i(2) }'
-    - "-> { 1 / 0 }"
-  isolation:
-    - false
-    - true
+    - '"101010".to_i(2)'
   matcher:
     - "Matcher::BeTheAnswer.new"
     - "Matcher::RaiseException.new(TypeError)"
@@ -62,6 +57,6 @@ contexts:
     - true
 
 actuals:
-  - "%{subject}.actual.class"
-  - "%{subject}.error.class"
+  - "%{subject}.actual"
+  - "%{subject}.error"
   - "%{subject}.got"

@@ -3,8 +3,8 @@
 require_relative "base"
 
 module TestTube
-  # The liquid class is great for values.
-  class Liquid < Base
+  # The passer class is great for values.
+  class Passer < Base
     # Software experiments.
     #
     # @param input    [#object_id]  An actual value to test.
@@ -14,7 +14,7 @@ module TestTube
       super()
 
       @actual = input
-      @got = negate ^ matcher.matches? { @actual }
+      @got = negate ^ matcher.matches? { input }
     end
   end
 end

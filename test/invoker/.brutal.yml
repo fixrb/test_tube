@@ -39,15 +39,20 @@ header: |
   end
 
 subject: |
-  TestTube.liquid(
+  TestTube.invoke(
     %{input},
+    isolation: %{isolation},
     matcher: %{matcher},
     negate: %{negate}
   )
 
 contexts:
   input:
-    - '"101010".to_i(2)'
+    - '-> { "101010".to_i(2) }'
+    - "-> { 1 / 0 }"
+  isolation:
+    - false
+    - true
   matcher:
     - "Matcher::BeTheAnswer.new"
     - "Matcher::RaiseException.new(TypeError)"
@@ -57,6 +62,6 @@ contexts:
     - true
 
 actuals:
-  - "%{subject}.actual"
-  - "%{subject}.error"
+  - "%{subject}.actual.class"
+  - "%{subject}.error.class"
   - "%{subject}.got"

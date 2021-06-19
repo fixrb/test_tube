@@ -5,8 +5,8 @@ require "defi"
 require_relative "base"
 
 module TestTube
-  # The content class is great for blocks.
-  class Content < Base
+  # The invoker class is great for blocks.
+  class Invoker < Base
     # Software experiments.
     #
     # rubocop:disable Lint/RescueException, Metrics/MethodLength

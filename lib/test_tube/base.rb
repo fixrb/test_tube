@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module TestTube
-  # The liquid class is great for values.
+  # The base class.
   class Base
     # @return [#object_id] The actual value.
     attr_reader :actual
