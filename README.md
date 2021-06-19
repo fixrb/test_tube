@@ -6,6 +6,8 @@
 
 > A test tube to conduct software experiments 🧪
 
+![A researcher experimenting with Ruby code](https://github.com/fixrb/test_tube/raw/main/img/social-media-preview.png)
+
 ## Installation
 
 Add this line to your application's Gemfile:
