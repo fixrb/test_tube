@@ -30,8 +30,14 @@ gem install test_tube
 
 ## Usage
 
+To make __TestTube__ available:
+
+```ruby
+require "test_tube"
+```
+
 Assuming we'd like to experiment on the answer to the Ultimate Question of Life,
-the Universe, and Everything with the following matcher:
+the Universe, and Everything with the following _matcher_:
 
 ```ruby
 class BeTheAnswer
@@ -41,35 +47,143 @@ class BeTheAnswer
 end
 ```
 
-One possibility would be to challenge a whole block of code:
+A _matcher_ is an object that responds to the `matches?` method with a block
+parameter representing the _actual value_ to be compared.
+
+Back to our Ruby experiments, one possibility would be to `invoke` a whole block
+of code:
 
 ```ruby
-tt = TestTube.invoke(
-  -> { "101010".to_i(2) },
+block_of_code = -> { "101010".to_i(2) }
+
+experiment = TestTube.invoke(
+  block_of_code,
   isolation: false,
   matcher:   BeTheAnswer.new,
   negate:    false
 )
-# => #<TestTube::Content:0x00007fb3b328b248 @actual=42, @got=true, @error=nil>
 
-tt.actual # => 42
-tt.error  # => nil
-tt.got    # => true
+experiment.actual # => 42
+experiment.error  # => nil
+experiment.got    # => true
 ```
 
-An alternative would be to challenge a value passed as a parameter:
+An alternative would be to `pass` directly the actual value as a parameter:
 
 ```ruby
-tt = TestTube.pass(
-  "101010".to_i(2),
+actual_value = "101010".to_i(2)
+
+experiment = TestTube.pass(
+  actual_value,
   matcher: BeTheAnswer.new,
   negate:  false
 )
-# => #<TestTube::Passer:0x00007f85c229c2d8 @actual=42, @got=true>
 
-tt.actual # => 42
-tt.error  # => nil
-tt.got    # => true
+experiment.actual # => 42
+experiment.error  # => nil
+experiment.got    # => true
+```
+
+### __Matchi__ matchers
+To facilitate the addition of matchers, a collection is available via the
+[__Matchi__ project](https://github.com/fixrb/matchi/).
+
+Let's use a built-in __Matchi__ matcher:
+
+```sh
+gem install matchi
+```
+
+```ruby
+require "matchi"
+```
+
+An example of successful experience:
+
+```ruby
+experiment = TestTube.invoke(
+  -> { "foo".blank? },
+  isolation: false,
+  matcher:   Matchi::Matcher::RaiseException.new(NoMethodError),
+  negate:    false
+)
+
+experiment.actual # => #<NoMethodError: undefined method `blank?' for "foo":String>
+experiment.error  # => nil
+experiment.got    # => true
+```
+
+Another example of an experiment that fails:
+
+```ruby
+experiment = TestTube.invoke(
+  -> { 0.1 + 0.2 },
+  isolation: false,
+  matcher:   Matchi::Matcher::Equal.new(0.3),
+  negate:    false
+)
+
+experiment.actual # => 0.30000000000000004
+experiment.error  # => nil
+experiment.got    # => false
+```
+
+Finally, an experiment which causes an error:
+
+```ruby
+experiment = TestTube.invoke(
+  -> { BOOM },
+  isolation: false,
+  matcher:   Matchi::Matcher::Match.new(/^foo$/),
+  negate:    false
+)
+
+experiment.actual # => nil
+experiment.error  # => #<NameError: uninitialized constant BOOM>
+experiment.got    # => nil
+```
+
+### Code isolation
+
+When experimenting tests, side-effects may occur. Because they may or may not be
+desired, an `isolation` option is available.
+
+Let's for instance consider this block of code:
+
+```ruby
+greeting = "Hello, world!"
+block_of_code = -> { greeting.gsub!("world", "Alice") }
+```
+
+By setting the `isolation` option to `true`, we can experiment while avoiding
+side effects:
+
+```ruby
+experiment = TestTube.invoke(
+  block_of_code,
+  isolation: true,
+  matcher:   Matchi::Matcher::Eql.new("Hello, Alice!"),
+  negate:    false
+)
+
+experiment.inspect # => <TestTube actual="Hello, Alice!" error=nil got=true>
+
+greeting # => "Hello, world!"
+```
+
+Otherwise, we can experiment without any code isolation:
+
+```ruby
+experiment = TestTube.invoke(
+  block_of_code,
+  isolation: false,
+  matcher:   Matchi::Matcher::Eql.new("Hello, Alice!"),
+  negate:    false
+)
+
+experiment.inspect # => <TestTube actual="Hello, Alice!" error=nil got=true>
+
+greeting # => "Hello, Alice!"
 ```
 
 ## Contact

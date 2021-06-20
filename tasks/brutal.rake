@@ -10,6 +10,7 @@ task :brutal do
         print "Generating #{test} test suite... "
 
         `bundle exec brutal`
+        `chmod +x test.rb`
 
         puts "Done."
       end

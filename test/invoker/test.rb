@@ -6,7 +6,11 @@ require "simplecov"
 ::SimpleCov.command_name "Brutal test suite"
 ::SimpleCov.start
 
-require "./../../lib/test_tube"
+begin
+  require "./../../lib/test_tube"
+rescue LoadError
+  require_relative "./../../lib/test_tube"
+end
 
 module Matcher
   class BeTheAnswer
@@ -50,6 +54,8 @@ end
 raise if actual.actual.class != Integer
 raise if actual.error.class != NilClass
 raise if actual.got != true
+raise if actual.inspect != "<TestTube actual=42 error=nil got=true>"
+raise if actual.to_s != "<TestTube actual=42 error=nil got=true>"
 
 # ------------------------------------------------------------------------------
 
@@ -65,6 +71,8 @@ end
 raise if actual.actual.class != Integer
 raise if actual.error.class != NilClass
 raise if actual.got != false
+raise if actual.inspect != "<TestTube actual=42 error=nil got=false>"
+raise if actual.to_s != "<TestTube actual=42 error=nil got=false>"
 
 # ------------------------------------------------------------------------------
 
@@ -80,6 +88,8 @@ end
 raise if actual.actual.class != Integer
 raise if actual.error.class != NilClass
 raise if actual.got != false
+raise if actual.inspect != "<TestTube actual=42 error=nil got=false>"
+raise if actual.to_s != "<TestTube actual=42 error=nil got=false>"
 
 # ------------------------------------------------------------------------------
 
@@ -95,6 +105,8 @@ end
 raise if actual.actual.class != Integer
 raise if actual.error.class != NilClass
 raise if actual.got != true
+raise if actual.inspect != "<TestTube actual=42 error=nil got=true>"
+raise if actual.to_s != "<TestTube actual=42 error=nil got=true>"
 
 # ------------------------------------------------------------------------------
 
@@ -110,6 +122,8 @@ end
 raise if actual.actual.class != Integer
 raise if actual.error.class != NilClass
 raise if actual.got != false
+raise if actual.inspect != "<TestTube actual=42 error=nil got=false>"
+raise if actual.to_s != "<TestTube actual=42 error=nil got=false>"
 
 # ------------------------------------------------------------------------------
 
@@ -125,6 +139,8 @@ end
 raise if actual.actual.class != Integer
 raise if actual.error.class != NilClass
 raise if actual.got != true
+raise if actual.inspect != "<TestTube actual=42 error=nil got=true>"
+raise if actual.to_s != "<TestTube actual=42 error=nil got=true>"
 
 # ------------------------------------------------------------------------------
 
@@ -140,6 +156,8 @@ end
 raise if actual.actual.class != Integer
 raise if actual.error.class != NilClass
 raise if actual.got != true
+raise if actual.inspect != "<TestTube actual=42 error=nil got=true>"
+raise if actual.to_s != "<TestTube actual=42 error=nil got=true>"
 
 # ------------------------------------------------------------------------------
 
@@ -155,6 +173,8 @@ end
 raise if actual.actual.class != Integer
 raise if actual.error.class != NilClass
 raise if actual.got != false
+raise if actual.inspect != "<TestTube actual=42 error=nil got=false>"
+raise if actual.to_s != "<TestTube actual=42 error=nil got=false>"
 
 # ------------------------------------------------------------------------------
 
@@ -170,6 +190,8 @@ end
 raise if actual.actual.class != Integer
 raise if actual.error.class != NilClass
 raise if actual.got != false
+raise if actual.inspect != "<TestTube actual=42 error=nil got=false>"
+raise if actual.to_s != "<TestTube actual=42 error=nil got=false>"
 
 # ------------------------------------------------------------------------------
 
@@ -185,6 +207,8 @@ end
 raise if actual.actual.class != Integer
 raise if actual.error.class != NilClass
 raise if actual.got != true
+raise if actual.inspect != "<TestTube actual=42 error=nil got=true>"
+raise if actual.to_s != "<TestTube actual=42 error=nil got=true>"
 
 # ------------------------------------------------------------------------------
 
@@ -200,6 +224,8 @@ end
 raise if actual.actual.class != Integer
 raise if actual.error.class != NilClass
 raise if actual.got != false
+raise if actual.inspect != "<TestTube actual=42 error=nil got=false>"
+raise if actual.to_s != "<TestTube actual=42 error=nil got=false>"
 
 # ------------------------------------------------------------------------------
 
@@ -215,6 +241,8 @@ end
 raise if actual.actual.class != Integer
 raise if actual.error.class != NilClass
 raise if actual.got != true
+raise if actual.inspect != "<TestTube actual=42 error=nil got=true>"
+raise if actual.to_s != "<TestTube actual=42 error=nil got=true>"
 
 # ------------------------------------------------------------------------------
 
@@ -230,6 +258,8 @@ end
 raise if actual.actual.class != NilClass
 raise if actual.error.class != ZeroDivisionError
 raise if actual.got != nil
+raise if actual.inspect != "<TestTube actual=nil error=#<ZeroDivisionError: divided by 0> got=nil>"
+raise if actual.to_s != "<TestTube actual=nil error=#<ZeroDivisionError: divided by 0> got=nil>"
 
 # ------------------------------------------------------------------------------
 
@@ -245,6 +275,8 @@ end
 raise if actual.actual.class != NilClass
 raise if actual.error.class != ZeroDivisionError
 raise if actual.got != nil
+raise if actual.inspect != "<TestTube actual=nil error=#<ZeroDivisionError: divided by 0> got=nil>"
+raise if actual.to_s != "<TestTube actual=nil error=#<ZeroDivisionError: divided by 0> got=nil>"
 
 # ------------------------------------------------------------------------------
 
@@ -260,6 +292,8 @@ end
 raise if actual.actual.class != NilClass
 raise if actual.error.class != ZeroDivisionError
 raise if actual.got != nil
+raise if actual.inspect != "<TestTube actual=nil error=#<ZeroDivisionError: divided by 0> got=nil>"
+raise if actual.to_s != "<TestTube actual=nil error=#<ZeroDivisionError: divided by 0> got=nil>"
 
 # ------------------------------------------------------------------------------
 
@@ -275,6 +309,8 @@ end
 raise if actual.actual.class != NilClass
 raise if actual.error.class != ZeroDivisionError
 raise if actual.got != nil
+raise if actual.inspect != "<TestTube actual=nil error=#<ZeroDivisionError: divided by 0> got=nil>"
+raise if actual.to_s != "<TestTube actual=nil error=#<ZeroDivisionError: divided by 0> got=nil>"
 
 # ------------------------------------------------------------------------------
 
@@ -290,6 +326,8 @@ end
 raise if actual.actual.class != ZeroDivisionError
 raise if actual.error.class != NilClass
 raise if actual.got != true
+raise if actual.inspect != "<TestTube actual=#<ZeroDivisionError: divided by 0> error=nil got=true>"
+raise if actual.to_s != "<TestTube actual=#<ZeroDivisionError: divided by 0> error=nil got=true>"
 
 # ------------------------------------------------------------------------------
 
@@ -305,6 +343,8 @@ end
 raise if actual.actual.class != ZeroDivisionError
 raise if actual.error.class != NilClass
 raise if actual.got != false
+raise if actual.inspect != "<TestTube actual=#<ZeroDivisionError: divided by 0> error=nil got=false>"
+raise if actual.to_s != "<TestTube actual=#<ZeroDivisionError: divided by 0> error=nil got=false>"
 
 # ------------------------------------------------------------------------------
 
@@ -320,6 +360,8 @@ end
 raise if actual.actual.class != NilClass
 raise if actual.error.class != ZeroDivisionError
 raise if actual.got != nil
+raise if actual.inspect != "<TestTube actual=nil error=#<ZeroDivisionError: divided by 0> got=nil>"
+raise if actual.to_s != "<TestTube actual=nil error=#<ZeroDivisionError: divided by 0> got=nil>"
 
 # ------------------------------------------------------------------------------
 
@@ -335,6 +377,8 @@ end
 raise if actual.actual.class != NilClass
 raise if actual.error.class != ZeroDivisionError
 raise if actual.got != nil
+raise if actual.inspect != "<TestTube actual=nil error=#<ZeroDivisionError: divided by 0> got=nil>"
+raise if actual.to_s != "<TestTube actual=nil error=#<ZeroDivisionError: divided by 0> got=nil>"
 
 # ------------------------------------------------------------------------------
 
@@ -350,6 +394,8 @@ end
 raise if actual.actual.class != NilClass
 raise if actual.error.class != ZeroDivisionError
 raise if actual.got != nil
+raise if actual.inspect != "<TestTube actual=nil error=#<ZeroDivisionError: divided by 0> got=nil>"
+raise if actual.to_s != "<TestTube actual=nil error=#<ZeroDivisionError: divided by 0> got=nil>"
 
 # ------------------------------------------------------------------------------
 
@@ -365,6 +411,8 @@ end
 raise if actual.actual.class != NilClass
 raise if actual.error.class != ZeroDivisionError
 raise if actual.got != nil
+raise if actual.inspect != "<TestTube actual=nil error=#<ZeroDivisionError: divided by 0> got=nil>"
+raise if actual.to_s != "<TestTube actual=nil error=#<ZeroDivisionError: divided by 0> got=nil>"
 
 # ------------------------------------------------------------------------------
 
@@ -380,6 +428,8 @@ end
 raise if actual.actual.class != ZeroDivisionError
 raise if actual.error.class != NilClass
 raise if actual.got != true
+raise if actual.inspect != "<TestTube actual=#<ZeroDivisionError: divided by 0> error=nil got=true>"
+raise if actual.to_s != "<TestTube actual=#<ZeroDivisionError: divided by 0> error=nil got=true>"
 
 # ------------------------------------------------------------------------------
 
@@ -395,3 +445,5 @@ end
 raise if actual.actual.class != ZeroDivisionError
 raise if actual.error.class != NilClass
 raise if actual.got != false
+raise if actual.inspect != "<TestTube actual=#<ZeroDivisionError: divided by 0> error=nil got=false>"
+raise if actual.to_s != "<TestTube actual=#<ZeroDivisionError: divided by 0> error=nil got=false>"

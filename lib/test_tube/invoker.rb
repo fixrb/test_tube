@@ -5,9 +5,9 @@ require "defi"
 require_relative "base"
 
 module TestTube
-  # The invoker class is great for blocks.
+  # Evaluate an actual value invoking it with #call method.
   class Invoker < Base
-    # Software experiments.
+    # Class initializer.
     #
     # rubocop:disable Lint/RescueException, Metrics/MethodLength
     #

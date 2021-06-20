@@ -3,9 +3,9 @@
 require_relative "base"
 
 module TestTube
-  # The passer class is great for values.
+  # Evaluate an actual value passed in parameter.
   class Passer < Base
-    # Software experiments.
+    # Class initializer.
     #
     # @param input    [#object_id]  An actual value to test.
     # @param matcher  [#matches?]   A matcher.

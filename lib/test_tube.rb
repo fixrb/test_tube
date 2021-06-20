@@ -11,7 +11,15 @@ module TestTube
   # @param negate     [Boolean]     Invert the matcher or not.
   #
   # @example
-  #   invoke(
+  #   require "test_tube"
+  #
+  #   class BeTheAnswer
+  #     def matches?
+  #       42.equal?(yield)
+  #     end
+  #   end
+  #
+  #   TestTube.invoke(
   #     -> { "101010".to_i(2) },
   #     isolation: false,
   #     matcher:   BeTheAnswer.new,
@@ -28,7 +36,15 @@ module TestTube
   # @param negate     [Boolean]     Invert the matcher or not.
   #
   # @example
-  #   pass(
+  #   require "test_tube"
+  #
+  #   class BeTheAnswer
+  #     def matches?
+  #       42.equal?(yield)
+  #     end
+  #   end
+  #
+  #   TestTube.pass(
   #     "101010".to_i(2),
   #     matcher:   BeTheAnswer.new,
   #     negate:    false

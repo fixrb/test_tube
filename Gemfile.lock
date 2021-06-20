@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    test_tube (1.0.0)
+    test_tube (1.1.0)
       defi (~> 2.0.5)
 
 GEM

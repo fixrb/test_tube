@@ -8,7 +8,11 @@ header: |
   ::SimpleCov.command_name "Brutal test suite"
   ::SimpleCov.start
 
-  require "./../../lib/test_tube"
+  begin
+    require "./../../lib/test_tube"
+  rescue LoadError
+    require_relative "./../../lib/test_tube"
+  end
 
   module Matcher
     class BeTheAnswer
@@ -65,3 +69,5 @@ actuals:
   - "%{subject}.actual.class"
   - "%{subject}.error.class"
   - "%{subject}.got"
+  - "%{subject}.inspect"
+  - "%{subject}.to_s"

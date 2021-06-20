@@ -6,7 +6,11 @@ require "simplecov"
 ::SimpleCov.command_name "Brutal test suite"
 ::SimpleCov.start
 
-require "./../../lib/test_tube"
+begin
+  require "./../../lib/test_tube"
+rescue LoadError
+  require_relative "./../../lib/test_tube"
+end
 
 module Matcher
   class BeTheAnswer
@@ -49,6 +53,8 @@ end
 raise if actual.actual != 42
 raise if actual.error != nil
 raise if actual.got != true
+raise if actual.inspect != "<TestTube actual=42 error=nil got=true>"
+raise if actual.to_s != "<TestTube actual=42 error=nil got=true>"
 
 # ------------------------------------------------------------------------------
 
@@ -63,6 +69,8 @@ end
 raise if actual.actual != 42
 raise if actual.error != nil
 raise if actual.got != false
+raise if actual.inspect != "<TestTube actual=42 error=nil got=false>"
+raise if actual.to_s != "<TestTube actual=42 error=nil got=false>"
 
 # ------------------------------------------------------------------------------
 
@@ -77,6 +85,8 @@ end
 raise if actual.actual != 42
 raise if actual.error != nil
 raise if actual.got != false
+raise if actual.inspect != "<TestTube actual=42 error=nil got=false>"
+raise if actual.to_s != "<TestTube actual=42 error=nil got=false>"
 
 # ------------------------------------------------------------------------------
 
@@ -91,6 +101,8 @@ end
 raise if actual.actual != 42
 raise if actual.error != nil
 raise if actual.got != true
+raise if actual.inspect != "<TestTube actual=42 error=nil got=true>"
+raise if actual.to_s != "<TestTube actual=42 error=nil got=true>"
 
 # ------------------------------------------------------------------------------
 
@@ -105,6 +117,8 @@ end
 raise if actual.actual != 42
 raise if actual.error != nil
 raise if actual.got != false
+raise if actual.inspect != "<TestTube actual=42 error=nil got=false>"
+raise if actual.to_s != "<TestTube actual=42 error=nil got=false>"
 
 # ------------------------------------------------------------------------------
 
@@ -119,3 +133,5 @@ end
 raise if actual.actual != 42
 raise if actual.error != nil
 raise if actual.got != true
+raise if actual.inspect != "<TestTube actual=42 error=nil got=true>"
+raise if actual.to_s != "<TestTube actual=42 error=nil got=true>"
