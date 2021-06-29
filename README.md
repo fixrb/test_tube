@@ -1,8 +1,10 @@
 # Test Tube
 
-[![Build Status](https://api.travis-ci.org/fixrb/test_tube.svg?branch=main)](https://travis-ci.org/fixrb/test_tube)
-[![Gem Version](https://badge.fury.io/rb/test_tube.svg)](https://rubygems.org/gems/test_tube)
-[![Documentation](https://img.shields.io/:yard-docs-38c800.svg)](https://rubydoc.info/gems/test_tube)
+[![Version](https://img.shields.io/github/v/tag/fixrb/test_tube?label=Version&logo=github)](https://github.com/fixrb/test_tube/releases)
+[![Yard documentation](https://img.shields.io/badge/Yard-documentation-blue.svg?logo=github)](https://rubydoc.info/github/fixrb/test_tube/main)
+[![CI](https://github.com/fixrb/test_tube/workflows/CI/badge.svg?branch=main)](https://github.com/fixrb/test_tube/actions?query=workflow%3Aci+branch%3Amain)
+[![RuboCop](https://github.com/fixrb/test_tube/workflows/RuboCop/badge.svg?branch=main)](https://github.com/fixrb/test_tube/actions?query=workflow%3Arubocop+branch%3Amain)
+[![License](https://img.shields.io/github/license/fixrb/test_tube?label=License&logo=github)](https://github.com/fixrb/test_tube/raw/main/LICENSE.md)
 
 > A test tube to conduct software experiments 🧪
 
@@ -85,6 +87,7 @@ experiment.got    # => true
 ```
 
 ### __Matchi__ matchers
+
 To facilitate the addition of matchers, a collection is available via the
 [__Matchi__ project](https://github.com/fixrb/matchi/).
 
