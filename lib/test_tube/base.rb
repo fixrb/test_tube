@@ -2,6 +2,8 @@
 
 module TestTube
   # Abstract class representing the state of an experiment.
+  #
+  # @api private
   class Base
     # Expectation's actual value.
     #

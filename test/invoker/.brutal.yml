@@ -44,10 +44,10 @@ header: |
 
 subject: |
   TestTube.invoke(
-    %{input},
     isolation: %{isolation},
     matcher: %{matcher},
-    negate: %{negate}
+    negate: %{negate},
+    &%{input}
   )
 
 contexts:

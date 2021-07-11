@@ -6,16 +6,18 @@ require_relative "base"
 
 module TestTube
   # Evaluate an actual value invoking it with #call method.
+  #
+  # @api private
   class Invoker < Base
     # Class initializer.
     #
     # rubocop:disable Lint/RescueException, Metrics/MethodLength
     #
-    # @param input      [#call]     The callable object to test.
     # @param isolation  [Boolean]   Compute in isolation or not.
     # @param matcher    [#matches?] A matcher.
     # @param negate     [Boolean]   Invert the matcher or not.
-    def initialize(input, isolation:, matcher:, negate:)
+    # @param input      [Proc]      The callable object to test.
+    def initialize(isolation:, matcher:, negate:, &input)
       super()
 
       @got = negate ^ matcher.matches? do

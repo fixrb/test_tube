@@ -4,6 +4,8 @@ require_relative "base"
 
 module TestTube
   # Evaluate an actual value passed in parameter.
+  #
+  # @api private
   class Passer < Base
     # Class initializer.
     #

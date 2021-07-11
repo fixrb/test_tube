@@ -44,10 +44,10 @@ end
 
 actual = begin
   TestTube.invoke(
-    -> { "101010".to_i(2) },
     isolation: false,
     matcher: Matcher::BeTheAnswer.new,
-    negate: false
+    negate: false,
+    &-> { "101010".to_i(2) }
   )
 end
 
@@ -61,10 +61,10 @@ raise if actual.to_s != "<TestTube actual=42 error=nil got=true>"
 
 actual = begin
   TestTube.invoke(
-    -> { "101010".to_i(2) },
     isolation: false,
     matcher: Matcher::BeTheAnswer.new,
-    negate: true
+    negate: true,
+    &-> { "101010".to_i(2) }
   )
 end
 
@@ -78,10 +78,10 @@ raise if actual.to_s != "<TestTube actual=42 error=nil got=false>"
 
 actual = begin
   TestTube.invoke(
-    -> { "101010".to_i(2) },
     isolation: false,
     matcher: Matcher::RaiseException.new(TypeError),
-    negate: false
+    negate: false,
+    &-> { "101010".to_i(2) }
   )
 end
 
@@ -95,10 +95,10 @@ raise if actual.to_s != "<TestTube actual=42 error=nil got=false>"
 
 actual = begin
   TestTube.invoke(
-    -> { "101010".to_i(2) },
     isolation: false,
     matcher: Matcher::RaiseException.new(TypeError),
-    negate: true
+    negate: true,
+    &-> { "101010".to_i(2) }
   )
 end
 
@@ -112,10 +112,10 @@ raise if actual.to_s != "<TestTube actual=42 error=nil got=true>"
 
 actual = begin
   TestTube.invoke(
-    -> { "101010".to_i(2) },
     isolation: false,
     matcher: Matcher::RaiseException.new(ZeroDivisionError),
-    negate: false
+    negate: false,
+    &-> { "101010".to_i(2) }
   )
 end
 
@@ -129,10 +129,10 @@ raise if actual.to_s != "<TestTube actual=42 error=nil got=false>"
 
 actual = begin
   TestTube.invoke(
-    -> { "101010".to_i(2) },
     isolation: false,
     matcher: Matcher::RaiseException.new(ZeroDivisionError),
-    negate: true
+    negate: true,
+    &-> { "101010".to_i(2) }
   )
 end
 
@@ -146,10 +146,10 @@ raise if actual.to_s != "<TestTube actual=42 error=nil got=true>"
 
 actual = begin
   TestTube.invoke(
-    -> { "101010".to_i(2) },
     isolation: true,
     matcher: Matcher::BeTheAnswer.new,
-    negate: false
+    negate: false,
+    &-> { "101010".to_i(2) }
   )
 end
 
@@ -163,10 +163,10 @@ raise if actual.to_s != "<TestTube actual=42 error=nil got=true>"
 
 actual = begin
   TestTube.invoke(
-    -> { "101010".to_i(2) },
     isolation: true,
     matcher: Matcher::BeTheAnswer.new,
-    negate: true
+    negate: true,
+    &-> { "101010".to_i(2) }
   )
 end
 
@@ -180,10 +180,10 @@ raise if actual.to_s != "<TestTube actual=42 error=nil got=false>"
 
 actual = begin
   TestTube.invoke(
-    -> { "101010".to_i(2) },
     isolation: true,
     matcher: Matcher::RaiseException.new(TypeError),
-    negate: false
+    negate: false,
+    &-> { "101010".to_i(2) }
   )
 end
 
@@ -197,10 +197,10 @@ raise if actual.to_s != "<TestTube actual=42 error=nil got=false>"
 
 actual = begin
   TestTube.invoke(
-    -> { "101010".to_i(2) },
     isolation: true,
     matcher: Matcher::RaiseException.new(TypeError),
-    negate: true
+    negate: true,
+    &-> { "101010".to_i(2) }
   )
 end
 
@@ -214,10 +214,10 @@ raise if actual.to_s != "<TestTube actual=42 error=nil got=true>"
 
 actual = begin
   TestTube.invoke(
-    -> { "101010".to_i(2) },
     isolation: true,
     matcher: Matcher::RaiseException.new(ZeroDivisionError),
-    negate: false
+    negate: false,
+    &-> { "101010".to_i(2) }
   )
 end
 
@@ -231,10 +231,10 @@ raise if actual.to_s != "<TestTube actual=42 error=nil got=false>"
 
 actual = begin
   TestTube.invoke(
-    -> { "101010".to_i(2) },
     isolation: true,
     matcher: Matcher::RaiseException.new(ZeroDivisionError),
-    negate: true
+    negate: true,
+    &-> { "101010".to_i(2) }
   )
 end
 
@@ -248,10 +248,10 @@ raise if actual.to_s != "<TestTube actual=42 error=nil got=true>"
 
 actual = begin
   TestTube.invoke(
-    -> { 1 / 0 },
     isolation: false,
     matcher: Matcher::BeTheAnswer.new,
-    negate: false
+    negate: false,
+    &-> { 1 / 0 }
   )
 end
 
@@ -265,10 +265,10 @@ raise if actual.to_s != "<TestTube actual=nil error=#<ZeroDivisionError: divided
 
 actual = begin
   TestTube.invoke(
-    -> { 1 / 0 },
     isolation: false,
     matcher: Matcher::BeTheAnswer.new,
-    negate: true
+    negate: true,
+    &-> { 1 / 0 }
   )
 end
 
@@ -282,10 +282,10 @@ raise if actual.to_s != "<TestTube actual=nil error=#<ZeroDivisionError: divided
 
 actual = begin
   TestTube.invoke(
-    -> { 1 / 0 },
     isolation: false,
     matcher: Matcher::RaiseException.new(TypeError),
-    negate: false
+    negate: false,
+    &-> { 1 / 0 }
   )
 end
 
@@ -299,10 +299,10 @@ raise if actual.to_s != "<TestTube actual=nil error=#<ZeroDivisionError: divided
 
 actual = begin
   TestTube.invoke(
-    -> { 1 / 0 },
     isolation: false,
     matcher: Matcher::RaiseException.new(TypeError),
-    negate: true
+    negate: true,
+    &-> { 1 / 0 }
   )
 end
 
@@ -316,10 +316,10 @@ raise if actual.to_s != "<TestTube actual=nil error=#<ZeroDivisionError: divided
 
 actual = begin
   TestTube.invoke(
-    -> { 1 / 0 },
     isolation: false,
     matcher: Matcher::RaiseException.new(ZeroDivisionError),
-    negate: false
+    negate: false,
+    &-> { 1 / 0 }
   )
 end
 
@@ -333,10 +333,10 @@ raise if actual.to_s != "<TestTube actual=#<ZeroDivisionError: divided by 0> err
 
 actual = begin
   TestTube.invoke(
-    -> { 1 / 0 },
     isolation: false,
     matcher: Matcher::RaiseException.new(ZeroDivisionError),
-    negate: true
+    negate: true,
+    &-> { 1 / 0 }
   )
 end
 
@@ -350,10 +350,10 @@ raise if actual.to_s != "<TestTube actual=#<ZeroDivisionError: divided by 0> err
 
 actual = begin
   TestTube.invoke(
-    -> { 1 / 0 },
     isolation: true,
     matcher: Matcher::BeTheAnswer.new,
-    negate: false
+    negate: false,
+    &-> { 1 / 0 }
   )
 end
 
@@ -367,10 +367,10 @@ raise if actual.to_s != "<TestTube actual=nil error=#<ZeroDivisionError: divided
 
 actual = begin
   TestTube.invoke(
-    -> { 1 / 0 },
     isolation: true,
     matcher: Matcher::BeTheAnswer.new,
-    negate: true
+    negate: true,
+    &-> { 1 / 0 }
   )
 end
 
@@ -384,10 +384,10 @@ raise if actual.to_s != "<TestTube actual=nil error=#<ZeroDivisionError: divided
 
 actual = begin
   TestTube.invoke(
-    -> { 1 / 0 },
     isolation: true,
     matcher: Matcher::RaiseException.new(TypeError),
-    negate: false
+    negate: false,
+    &-> { 1 / 0 }
   )
 end
 
@@ -401,10 +401,10 @@ raise if actual.to_s != "<TestTube actual=nil error=#<ZeroDivisionError: divided
 
 actual = begin
   TestTube.invoke(
-    -> { 1 / 0 },
     isolation: true,
     matcher: Matcher::RaiseException.new(TypeError),
-    negate: true
+    negate: true,
+    &-> { 1 / 0 }
   )
 end
 
@@ -418,10 +418,10 @@ raise if actual.to_s != "<TestTube actual=nil error=#<ZeroDivisionError: divided
 
 actual = begin
   TestTube.invoke(
-    -> { 1 / 0 },
     isolation: true,
     matcher: Matcher::RaiseException.new(ZeroDivisionError),
-    negate: false
+    negate: false,
+    &-> { 1 / 0 }
   )
 end
 
@@ -435,10 +435,10 @@ raise if actual.to_s != "<TestTube actual=#<ZeroDivisionError: divided by 0> err
 
 actual = begin
   TestTube.invoke(
-    -> { 1 / 0 },
     isolation: true,
     matcher: Matcher::RaiseException.new(ZeroDivisionError),
-    negate: true
+    negate: true,
+    &-> { 1 / 0 }
   )
 end
 

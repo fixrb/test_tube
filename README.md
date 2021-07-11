@@ -59,10 +59,10 @@ of code:
 block_of_code = -> { "101010".to_i(2) }
 
 experiment = TestTube.invoke(
-  block_of_code,
   isolation: false,
   matcher:   BeTheAnswer.new,
-  negate:    false
+  negate:    false,
+  &block_of_code
 )
 
 experiment.actual # => 42
@@ -105,11 +105,12 @@ An example of successful experience:
 
 ```ruby
 experiment = TestTube.invoke(
-  -> { "foo".blank? },
   isolation: false,
   matcher:   Matchi::Matcher::RaiseException.new(NoMethodError),
   negate:    false
-)
+) do
+  "foo".blank?
+end
 
 experiment.actual # => #<NoMethodError: undefined method `blank?' for "foo":String>
 experiment.error  # => nil
@@ -120,10 +121,10 @@ Another example of an experiment that fails:
 
 ```ruby
 experiment = TestTube.invoke(
-  -> { 0.1 + 0.2 },
   isolation: false,
   matcher:   Matchi::Matcher::Equal.new(0.3),
-  negate:    false
+  negate:    false,
+  &-> { 0.1 + 0.2 }
 )
 
 experiment.actual # => 0.30000000000000004
@@ -135,11 +136,10 @@ Finally, an experiment which causes an error:
 
 ```ruby
 experiment = TestTube.invoke(
-  -> { BOOM },
   isolation: false,
   matcher:   Matchi::Matcher::Match.new(/^foo$/),
   negate:    false
-)
+) { BOOM }
 
 experiment.actual # => nil
 experiment.error  # => #<NameError: uninitialized constant BOOM>
@@ -163,10 +163,10 @@ side effects:
 
 ```ruby
 experiment = TestTube.invoke(
-  block_of_code,
   isolation: true,
   matcher:   Matchi::Matcher::Eql.new("Hello, Alice!"),
-  negate:    false
+  negate:    false,
+  &block_of_code
 )
 
 experiment.inspect # => <TestTube actual="Hello, Alice!" error=nil got=true>
@@ -178,10 +178,10 @@ Otherwise, we can experiment without any code isolation:
 
 ```ruby
 experiment = TestTube.invoke(
-  block_of_code,
   isolation: false,
   matcher:   Matchi::Matcher::Eql.new("Hello, Alice!"),
-  negate:    false
+  negate:    false,
+  &block_of_code
 )
 
 experiment.inspect # => <TestTube actual="Hello, Alice!" error=nil got=true>
