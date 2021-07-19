@@ -13,15 +13,15 @@ module TestTube
     #
     # rubocop:disable Lint/RescueException, Metrics/MethodLength
     #
-    # @param isolation  [Boolean]   Compute in isolation or not.
-    # @param matcher    [#matches?] A matcher.
-    # @param negate     [Boolean]   Invert the matcher or not.
-    # @param input      [Proc]      The callable object to test.
-    def initialize(isolation:, matcher:, negate:, &input)
+    # @param isolate  [Boolean]   Compute in a subprocess.
+    # @param matcher  [#matches?] A matcher.
+    # @param negate   [Boolean]   Invert the matcher or not.
+    # @param input    [Proc]      The callable object to test.
+    def initialize(isolate:, matcher:, negate:, &input)
       super()
 
       @got = negate ^ matcher.matches? do
-        value = if isolation
+        value = if isolate
                   send_call.to!(input)
                 else
                   send_call.to(input)

@@ -5,8 +5,8 @@ header: |
 
   require "simplecov"
 
-  ::SimpleCov.command_name "Brutal test suite"
-  ::SimpleCov.start
+  SimpleCov.command_name "Brutal test suite"
+  SimpleCov.start
 
   begin
     require "./../../lib/test_tube"
@@ -16,18 +16,18 @@ header: |
 
   module Matcher
     class BeTheAnswer
-      def expected
-        42
-      end
-
       def matches?
         expected.equal?(yield)
+      end
+
+      private
+
+      def expected
+        42
       end
     end
 
     class RaiseException
-      attr_reader :expected
-
       def initialize(expected)
         @expected = expected
       end
@@ -39,15 +39,15 @@ header: |
       else
         false
       end
+
+      private
+
+      attr_reader :expected
     end
   end
 
 subject: |
-  TestTube.pass(
-    %{input},
-    matcher: %{matcher},
-    negate: %{negate}
-  )
+  TestTube.pass(%{input}, matcher: %{matcher}, negate: %{negate})
 
 contexts:
   input:

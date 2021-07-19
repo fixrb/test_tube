@@ -9,7 +9,7 @@ module TestTube
   class Passer < Base
     # Class initializer.
     #
-    # @param input    [#object_id]  An actual value to test.
+    # @param input    [#object_id]  The actual value to test.
     # @param matcher  [#matches?]   A matcher.
     # @param negate   [Boolean]     Invert the matcher or not.
     def initialize(input, matcher:, negate:)

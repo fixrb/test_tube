@@ -58,12 +58,8 @@ of code:
 ```ruby
 block_of_code = -> { "101010".to_i(2) }
 
-experiment = TestTube.invoke(
-  isolation: false,
-  matcher:   BeTheAnswer.new,
-  negate:    false,
-  &block_of_code
-)
+experiment = TestTube.invoke(isolate: false, matcher: BeTheAnswer.new, negate: false, &block_of_code)
+# => <TestTube actual=42 error=nil got=true>
 
 experiment.actual # => 42
 experiment.error  # => nil
@@ -75,11 +71,8 @@ An alternative would be to `pass` directly the actual value as a parameter:
 ```ruby
 actual_value = "101010".to_i(2)
 
-experiment = TestTube.pass(
-  actual_value,
-  matcher: BeTheAnswer.new,
-  negate:  false
-)
+experiment = TestTube.pass(actual_value, matcher: BeTheAnswer.new, negate: false)
+# => <TestTube actual=42 error=nil got=true>
 
 experiment.actual # => 42
 experiment.error  # => nil
@@ -105,12 +98,11 @@ An example of successful experience:
 
 ```ruby
 experiment = TestTube.invoke(
-  isolation: false,
-  matcher:   Matchi::Matcher::RaiseException.new(NoMethodError),
-  negate:    false
-) do
-  "foo".blank?
-end
+  isolate: false,
+  matcher: Matchi::Matcher::RaiseException.new(NoMethodError),
+  negate:  false
+) { "foo".blank? }
+# => <TestTube actual=#<NoMethodError: undefined method `blank?' for "foo":String> error=nil got=true>
 
 experiment.actual # => #<NoMethodError: undefined method `blank?' for "foo":String>
 experiment.error  # => nil
@@ -121,11 +113,11 @@ Another example of an experiment that fails:
 
 ```ruby
 experiment = TestTube.invoke(
-  isolation: false,
-  matcher:   Matchi::Matcher::Equal.new(0.3),
-  negate:    false,
+  isolate: false,
+  matcher: Matchi::Matcher::Equal.new(0.3),
+  negate:  false,
   &-> { 0.1 + 0.2 }
-)
+) # => <TestTube actual=0.30000000000000004 error=nil got=false>
 
 experiment.actual # => 0.30000000000000004
 experiment.error  # => nil
@@ -136,10 +128,11 @@ Finally, an experiment which causes an error:
 
 ```ruby
 experiment = TestTube.invoke(
-  isolation: false,
-  matcher:   Matchi::Matcher::Match.new(/^foo$/),
-  negate:    false
+  isolate: false,
+  matcher: Matchi::Matcher::Match.new(/^foo$/),
+  negate:  false
 ) { BOOM }
+# => <TestTube actual=nil error=#<NameError: uninitialized constant BOOM> got=nil>
 
 experiment.actual # => nil
 experiment.error  # => #<NameError: uninitialized constant BOOM>
@@ -149,27 +142,25 @@ experiment.got    # => nil
 ### Code isolation
 
 When experimenting tests, side-effects may occur. Because they may or may not be
-desired, an `isolation` option is available.
+desired, an `isolate` option is available.
 
 Let's for instance consider this block of code:
 
 ```ruby
 greeting = "Hello, world!"
-block_of_code = -> { greeting.gsub!("world", "Alice") }
+block_of_code = -> { greeting.gsub!("world", "Alice") } # => #<Proc:0x00007f87f71b9690 (irb):42 (lambda)>
 ```
 
-By setting the `isolation` option to `true`, we can experiment while avoiding
+By setting the `isolate` option to `true`, we can experiment while avoiding
 side effects:
 
 ```ruby
 experiment = TestTube.invoke(
-  isolation: true,
-  matcher:   Matchi::Matcher::Eql.new("Hello, Alice!"),
-  negate:    false,
+  isolate: true,
+  matcher: Matchi::Matcher::Eql.new("Hello, Alice!"),
+  negate:  false,
   &block_of_code
-)
-
-experiment.inspect # => <TestTube actual="Hello, Alice!" error=nil got=true>
+) # => <TestTube actual="Hello, Alice!" error=nil got=true>
 
 greeting # => "Hello, world!"
 ```
@@ -178,13 +169,11 @@ Otherwise, we can experiment without any code isolation:
 
 ```ruby
 experiment = TestTube.invoke(
-  isolation: false,
-  matcher:   Matchi::Matcher::Eql.new("Hello, Alice!"),
-  negate:    false,
+  isolate: false,
+  matcher: Matchi::Matcher::Eql.new("Hello, Alice!"),
+  negate:  false,
   &block_of_code
-)
-
-experiment.inspect # => <TestTube actual="Hello, Alice!" error=nil got=true>
+) # => <TestTube actual="Hello, Alice!" error=nil got=true>
 
 greeting # => "Hello, Alice!"
 ```
@@ -192,6 +181,8 @@ greeting # => "Hello, Alice!"
 ## Contact
 
 * Source code: https://github.com/fixrb/test_tube
+* Chinese blog post: https://ruby-china.org/topics/41390
+* Japanese blog post: https://qiita.com/cyril/items/36174b619ff1852c80ec
 
 ## Versioning
 
@@ -199,7 +190,7 @@ __Test Tube__ follows [Semantic Versioning 2.0](https://semver.org/).
 
 ## License
 
-The [gem](https://rubygems.org/gems/test_tube) is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+The [gem](https://rubygems.org/gems/test_tube) is available as open source under the terms of the [MIT License](https://github.com/fixrb/test_tube/raw/main/LICENSE.md).
 
 ***
 
