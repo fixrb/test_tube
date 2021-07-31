@@ -1,47 +1,10 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require "simplecov"
-
-SimpleCov.command_name "Brutal test suite"
-SimpleCov.start
-
 begin
-  require "./../../lib/test_tube"
+  require "./../helper"
 rescue LoadError
-  require_relative "./../../lib/test_tube"
-end
-
-module Matcher
-  class BeTheAnswer
-    def matches?
-      expected.equal?(yield)
-    end
-
-    private
-
-    def expected
-      42
-    end
-  end
-
-  class RaiseException
-    def initialize(expected)
-      @expected = expected
-    end
-
-    def matches?(*, **)
-      yield
-    rescue expected => _e
-      true
-    else
-      false
-    end
-
-    private
-
-    attr_reader :expected
-  end
+  require_relative "./../helper"
 end
 
 # ------------------------------------------------------------------------------

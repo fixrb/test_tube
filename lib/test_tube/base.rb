@@ -4,7 +4,7 @@ module TestTube
   # Abstract class representing the state of an experiment.
   #
   # @api private
-  class Base
+  class Base < ::BasicObject
     # Expectation's actual value.
     #
     # @return [#object_id] The actual value.

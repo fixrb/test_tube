@@ -3,7 +3,11 @@
 desc "Generate the picture of the behavior of the code"
 task :brutal do
   Dir.chdir("test") do
-    paths = %w[. ..]
+    paths = %w[
+      .
+      ..
+      helper.rb
+    ]
 
     Dir.entries(".").reject { |name| paths.include?(name) }.each do |test|
       Dir.chdir(test) do

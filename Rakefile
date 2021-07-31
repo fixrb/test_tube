@@ -6,7 +6,7 @@ require "rubocop/rake_task"
 require "yard"
 
 Rake::TestTask.new do |t|
-  t.pattern = "test/**/test_*.rb"
+  t.pattern = "test/**/test.rb"
   t.verbose = true
   t.warning = true
 end

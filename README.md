@@ -39,7 +39,7 @@ require "test_tube"
 ```
 
 Assuming we'd like to experiment on the answer to the Ultimate Question of Life,
-the Universe, and Everything with the following _matcher_:
+the Universe, and Everything with the following matcher:
 
 ```ruby
 class BeTheAnswer
@@ -49,11 +49,7 @@ class BeTheAnswer
 end
 ```
 
-A _matcher_ is an object that responds to the `matches?` method with a block
-parameter representing the _actual value_ to be compared.
-
-Back to our Ruby experiments, one possibility would be to `invoke` a whole block
-of code:
+One possibility would be to `invoke` a whole block of code:
 
 ```ruby
 block_of_code = -> { "101010".to_i(2) }
@@ -99,7 +95,7 @@ An example of successful experience:
 ```ruby
 experiment = TestTube.invoke(
   isolate: false,
-  matcher: Matchi::Matcher::RaiseException.new(NoMethodError),
+  matcher: Matchi::RaiseException.new(:NoMethodError),
   negate:  false
 ) { "foo".blank? }
 # => <TestTube actual=#<NoMethodError: undefined method `blank?' for "foo":String> error=nil got=true>
@@ -114,7 +110,7 @@ Another example of an experiment that fails:
 ```ruby
 experiment = TestTube.invoke(
   isolate: false,
-  matcher: Matchi::Matcher::Equal.new(0.3),
+  matcher: Matchi::Be.new(0.3),
   negate:  false,
   &-> { 0.1 + 0.2 }
 ) # => <TestTube actual=0.30000000000000004 error=nil got=false>
@@ -129,7 +125,7 @@ Finally, an experiment which causes an error:
 ```ruby
 experiment = TestTube.invoke(
   isolate: false,
-  matcher: Matchi::Matcher::Match.new(/^foo$/),
+  matcher: Matchi::Match.new(/^foo$/),
   negate:  false
 ) { BOOM }
 # => <TestTube actual=nil error=#<NameError: uninitialized constant BOOM> got=nil>
@@ -157,7 +153,7 @@ side effects:
 ```ruby
 experiment = TestTube.invoke(
   isolate: true,
-  matcher: Matchi::Matcher::Eql.new("Hello, Alice!"),
+  matcher: Matchi::Eq.new("Hello, Alice!"),
   negate:  false,
   &block_of_code
 ) # => <TestTube actual="Hello, Alice!" error=nil got=true>
@@ -170,7 +166,7 @@ Otherwise, we can experiment without any code isolation:
 ```ruby
 experiment = TestTube.invoke(
   isolate: false,
-  matcher: Matchi::Matcher::Eql.new("Hello, Alice!"),
+  matcher: Matchi::Eq.new("Hello, Alice!"),
   negate:  false,
   &block_of_code
 ) # => <TestTube actual="Hello, Alice!" error=nil got=true>

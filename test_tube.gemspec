@@ -8,11 +8,11 @@ Gem::Specification.new do |spec|
   spec.summary      = "A test tube to conduct software experiments 🧪"
   spec.description  = spec.summary
   spec.homepage     = "https://github.com/fixrb/test_tube"
-  spec.required_ruby_version = Gem::Requirement.new(">= 2.7.0")
+  spec.required_ruby_version = ::Gem::Requirement.new(">= 2.7.0")
   spec.license      = "MIT"
   spec.files        = Dir["LICENSE.md", "README.md", "lib/**/*"]
 
-  spec.add_dependency "defi", "~> 2.0.5"
+  spec.add_dependency "defi", "~> 2.0.6"
 
   spec.add_development_dependency "brutal"
   spec.add_development_dependency "bundler"
