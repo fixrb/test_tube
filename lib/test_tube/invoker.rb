@@ -9,9 +9,9 @@ module TestTube
   #
   # @api private
   class Invoker < Base
-    # Class initializer.
-    #
     # rubocop:disable Lint/RescueException, Metrics/MethodLength
+
+    # Class initializer.
     #
     # @param isolate  [Boolean]   Compute in a subprocess.
     # @param matcher  [#matches?] A matcher.
@@ -20,18 +20,21 @@ module TestTube
     def initialize(isolate:, matcher:, negate:, &input)
       super()
 
-      value = if isolate
-                send_call.to!(input)
-              else
-                send_call.to(input)
-              end
+      @got = negate ^ matcher.matches? do
+        value = if isolate
+                  send_call.to!(input)
+                else
+                  send_call.to(input)
+                end
 
-      @actual = value.object
-      @got = negate ^ matcher.matches? { value.call }
+        @actual = value.object
+        value.call
+      end
     rescue ::Exception => e
       @actual = nil
       @error  = e
     end
+
     # rubocop:enable Lint/RescueException, Metrics/MethodLength
 
     private
