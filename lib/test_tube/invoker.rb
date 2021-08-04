@@ -20,16 +20,14 @@ module TestTube
     def initialize(isolate:, matcher:, negate:, &input)
       super()
 
-      @got = negate ^ matcher.matches? do
-        value = if isolate
-                  send_call.to!(input)
-                else
-                  send_call.to(input)
-                end
+      value = if isolate
+                send_call.to!(input)
+              else
+                send_call.to(input)
+              end
 
-        @actual = value.object
-        value.call
-      end
+      @actual = value.object
+      @got = negate ^ matcher.matches? { value.call }
     rescue ::Exception => e
       @actual = nil
       @error  = e
