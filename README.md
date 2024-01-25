@@ -1,8 +1,8 @@
 # Test Tube
 
-[![Version](https://img.shields.io/github/v/tag/fixrb/test_tube?label=Version&logo=github)](https://github.com/fixrb/test_tube/releases)
+[![Version](https://img.shields.io/github/v/tag/fixrb/test_tube?label=Version&logo=github)](https://github.com/fixrb/test_tube/tags)
 [![Yard documentation](https://img.shields.io/badge/Yard-documentation-blue.svg?logo=github)](https://rubydoc.info/github/fixrb/test_tube/main)
-[![CI](https://github.com/fixrb/test_tube/workflows/CI/badge.svg?branch=main)](https://github.com/fixrb/test_tube/actions?query=workflow%3Aci+branch%3Amain)
+[![Ruby](https://github.com/fixrb/test_tube/workflows/Ruby/badge.svg?branch=main)](https://github.com/fixrb/test_tube/actions?query=workflow%3Aruby+branch%3Amain)
 [![RuboCop](https://github.com/fixrb/test_tube/workflows/RuboCop/badge.svg?branch=main)](https://github.com/fixrb/test_tube/actions?query=workflow%3Arubocop+branch%3Amain)
 [![License](https://img.shields.io/github/license/fixrb/test_tube?label=License&logo=github)](https://github.com/fixrb/test_tube/raw/main/LICENSE.md)
 
@@ -21,7 +21,7 @@ gem "test_tube"
 And then execute:
 
 ```sh
-bundle
+bundle install
 ```
 
 Or install it yourself as:
@@ -54,7 +54,7 @@ One possibility would be to `invoke` a whole block of code:
 ```ruby
 block_of_code = -> { "101010".to_i(2) }
 
-experiment = TestTube.invoke(isolate: false, matcher: BeTheAnswer.new, negate: false, &block_of_code)
+experiment = TestTube.invoke(matcher: BeTheAnswer.new, negate: false, &block_of_code)
 # => <TestTube actual=42 error=nil got=true>
 
 experiment.actual # => 42
@@ -94,7 +94,6 @@ An example of successful experience:
 
 ```ruby
 experiment = TestTube.invoke(
-  isolate: false,
   matcher: Matchi::RaiseException.new(:NoMethodError),
   negate:  false
 ) { "foo".blank? }
@@ -109,7 +108,6 @@ Another example of an experiment that fails:
 
 ```ruby
 experiment = TestTube.invoke(
-  isolate: false,
   matcher: Matchi::Be.new(0.3),
   negate:  false,
   &-> { 0.1 + 0.2 }
@@ -124,7 +122,6 @@ Finally, an experiment which causes an error:
 
 ```ruby
 experiment = TestTube.invoke(
-  isolate: false,
   matcher: Matchi::Match.new(/^foo$/),
   negate:  false
 ) { BOOM }
@@ -133,45 +130,6 @@ experiment = TestTube.invoke(
 experiment.actual # => nil
 experiment.error  # => #<NameError: uninitialized constant BOOM>
 experiment.got    # => nil
-```
-
-### Code isolation
-
-When experimenting tests, side-effects may occur. Because they may or may not be
-desired, an `isolate` option is available.
-
-Let's for instance consider this block of code:
-
-```ruby
-greeting = "Hello, world!"
-block_of_code = -> { greeting.gsub!("world", "Alice") } # => #<Proc:0x00007f87f71b9690 (irb):42 (lambda)>
-```
-
-By setting the `isolate` option to `true`, we can experiment while avoiding
-side effects:
-
-```ruby
-experiment = TestTube.invoke(
-  isolate: true,
-  matcher: Matchi::Eq.new("Hello, Alice!"),
-  negate:  false,
-  &block_of_code
-) # => <TestTube actual="Hello, Alice!" error=nil got=true>
-
-greeting # => "Hello, world!"
-```
-
-Otherwise, we can experiment without any code isolation:
-
-```ruby
-experiment = TestTube.invoke(
-  isolate: false,
-  matcher: Matchi::Eq.new("Hello, Alice!"),
-  negate:  false,
-  &block_of_code
-) # => <TestTube actual="Hello, Alice!" error=nil got=true>
-
-greeting # => "Hello, Alice!"
 ```
 
 ## Contact
@@ -188,11 +146,11 @@ __Test Tube__ follows [Semantic Versioning 2.0](https://semver.org/).
 
 The [gem](https://rubygems.org/gems/test_tube) is available as open source under the terms of the [MIT License](https://github.com/fixrb/test_tube/raw/main/LICENSE.md).
 
-***
+---
 
 <p>
   This project is sponsored by:<br />
   <a href="https://sashite.com/"><img
     src="https://github.com/fixrb/test_tube/raw/main/img/sashite.png"
-    alt="Sashite" /></a>
+    alt="Sashité" /></a>
 </p>

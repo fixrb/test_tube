@@ -8,7 +8,7 @@ require "matchi"
 # ------------------------------------------------------------------------------
 
 object = []
-actual = TestTube::Invoker.new(isolate: false, matcher: Matchi::Change.new(object, :length).by_at_least(1), negate: false) { object << 1 }
+actual = TestTube::Invoker.new(matcher: Matchi::Change.new(object, :length).by_at_least(1), negate: false) { object << 1 }
 
 raise if actual.actual != [1]
 raise if actual.error != nil

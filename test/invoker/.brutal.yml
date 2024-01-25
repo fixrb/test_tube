@@ -10,7 +10,7 @@ header: |
   end
 
 subject: |
-  TestTube.invoke(isolate: %{isolate}, matcher: %{matcher}, negate: %{negate},
+  TestTube.invoke(matcher: %{matcher}, negate: %{negate},
     &%{input}
   )
 
@@ -18,9 +18,6 @@ contexts:
   input:
     - '-> { "101010".to_i(2) }'
     - "-> { 1 / 0 }"
-  isolate:
-    - false
-    - true
   matcher:
     - "Matcher::BeTheAnswer.new"
     - "Matcher::RaiseException.new(TypeError)"
