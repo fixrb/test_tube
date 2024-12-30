@@ -78,7 +78,7 @@ experiment.got    # => true
 ### __Matchi__ matchers
 
 To facilitate the addition of matchers, a collection is available via the
-[__Matchi__ project](https://github.com/fixrb/matchi/).
+[Matchi project](https://github.com/fixrb/matchi/).
 
 Let's use a built-in __Matchi__ matcher:
 
