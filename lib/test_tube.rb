@@ -7,9 +7,9 @@ require_relative File.join("test_tube", "passer")
 #
 # @api public
 module TestTube
-  # @param matcher  [#match?] A matcher.
-  # @param negate   [Boolean]   Invert the matcher or not.
-  # @param input    [Proc]      The callable object to test.
+  # Invokes a block for testing.
+  #
+  # @see TestTube::Invoker#initialize for parameter details
   #
   # @example
   #   require "test_tube"
@@ -24,14 +24,14 @@ module TestTube
   #     "101010".to_i(2)
   #   end
   #
-  # @return [Invoker] A software experiment.
-  def self.invoke(matcher:, negate:, &input)
-    Invoker.new(matcher:, negate:, &input)
+  # @return [TestTube::Invoker] A software experiment.
+  def self.invoke(...)
+    Invoker.new(...)
   end
 
-  # @param input    [#object_id]  The actual value to test.
-  # @param matcher  [#match?]     A matcher.
-  # @param negate   [Boolean]     Invert the matcher or not.
+  # Tests a value directly.
+  #
+  # @see TestTube::Passer#initialize for parameter details
   #
   # @example
   #   require "test_tube"
@@ -47,8 +47,8 @@ module TestTube
   #     negate: false
   #   )
   #
-  # @return [Passer] A software experiment.
-  def self.pass(input, matcher:, negate:)
-    Passer.new(input, matcher:, negate:)
+  # @return [TestTube::Passer] A software experiment.
+  def self.pass(...)
+    Passer.new(...)
   end
 end
