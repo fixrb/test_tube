@@ -7,7 +7,7 @@ require_relative File.join("test_tube", "passer")
 #
 # @api public
 module TestTube
-  # @param matcher  [#matches?] A matcher.
+  # @param matcher  [#match?] A matcher.
   # @param negate   [Boolean]   Invert the matcher or not.
   # @param input    [Proc]      The callable object to test.
   #
@@ -15,7 +15,7 @@ module TestTube
   #   require "test_tube"
   #
   #   class BeTheAnswer
-  #     def matches?
+  #     def match?
   #       42.equal?(yield)
   #     end
   #   end
@@ -30,14 +30,14 @@ module TestTube
   end
 
   # @param input    [#object_id]  The actual value to test.
-  # @param matcher  [#matches?]   A matcher.
+  # @param matcher  [#match?]     A matcher.
   # @param negate   [Boolean]     Invert the matcher or not.
   #
   # @example
   #   require "test_tube"
   #
   #   class BeTheAnswer
-  #     def matches?
+  #     def match?
   #       42.equal?(yield)
   #     end
   #   end

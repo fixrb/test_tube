@@ -10,13 +10,13 @@ module TestTube
     # Class initializer.
     #
     # @param input    [#object_id]  The actual value to test.
-    # @param matcher  [#matches?]   A matcher.
+    # @param matcher  [#match?]     A matcher.
     # @param negate   [Boolean]     Invert the matcher or not.
     def initialize(input, matcher:, negate:)
       super()
 
       @actual = input
-      @got = negate ^ matcher.matches? { input }
+      @got = negate ^ matcher.match? { input }
     end
   end
 end

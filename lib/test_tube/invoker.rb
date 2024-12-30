@@ -13,13 +13,13 @@ module TestTube
 
     # Class initializer.
     #
-    # @param matcher  [#matches?] A matcher.
+    # @param matcher  [#match?]   A matcher.
     # @param negate   [Boolean]   Invert the matcher or not.
     # @param input    [Proc]      The callable object to test.
     def initialize(matcher:, negate:, &input)
       super()
 
-      @got = negate ^ matcher.matches? do
+      @got = negate ^ matcher.match? do
         value = send_call.to(input)
         @actual = value.object
         value.call

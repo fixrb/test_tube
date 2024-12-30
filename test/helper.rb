@@ -9,7 +9,7 @@ require_relative "../lib/test_tube"
 
 module Matcher
   class BeTheAnswer
-    def matches?
+    def match?
       expected.equal?(yield)
     end
 
@@ -25,7 +25,7 @@ module Matcher
       @expected = expected
     end
 
-    def matches?(*, **)
+    def match?(*, **)
       yield
     rescue expected => _e
       true

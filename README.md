@@ -43,7 +43,7 @@ the Universe, and Everything with the following matcher:
 
 ```ruby
 class BeTheAnswer
-  def matches?
+  def match?
     42.equal?(yield)
   end
 end
