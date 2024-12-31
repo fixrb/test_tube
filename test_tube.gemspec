@@ -10,9 +10,9 @@ Gem::Specification.new do |spec|
   spec.homepage               = "https://github.com/fixrb/test_tube"
   spec.license                = "MIT"
   spec.files                  = Dir["LICENSE.md", "README.md", "lib/**/*"]
-  spec.required_ruby_version  = ">= 3.2.0"
+  spec.required_ruby_version  = ">= 3.1.0"
 
   spec.metadata["rubygems_mfa_required"] = "true"
 
-  spec.add_dependency "defi", "~> 3.0.0"
+  spec.add_dependency "defi", "~> 3.0.1"
 end

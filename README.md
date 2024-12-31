@@ -2,11 +2,15 @@
 
 [![Version](https://img.shields.io/github/v/tag/fixrb/test_tube?label=Version&logo=github)](https://github.com/fixrb/test_tube/tags)
 [![Yard documentation](https://img.shields.io/badge/Yard-documentation-blue.svg?logo=github)](https://rubydoc.info/github/fixrb/test_tube/main)
-[![Ruby](https://github.com/fixrb/test_tube/workflows/Ruby/badge.svg?branch=main)](https://github.com/fixrb/test_tube/actions?query=workflow%3Aruby+branch%3Amain)
-[![RuboCop](https://github.com/fixrb/test_tube/workflows/RuboCop/badge.svg?branch=main)](https://github.com/fixrb/test_tube/actions?query=workflow%3Arubocop+branch%3Amain)
 [![License](https://img.shields.io/github/license/fixrb/test_tube?label=License&logo=github)](https://github.com/fixrb/test_tube/raw/main/LICENSE.md)
 
-> A test tube to conduct software experiments 🧪
+> A test tube to conduct software experiments safely 🧪
+
+TestTube is a Ruby library designed to safely execute and evaluate code experiments. It provides:
+- Complete exception handling (including SystemExit and other system-level exceptions)
+- A flexible matcher-based testing approach
+- Two distinct testing methods: code execution (`invoke`) and value testing (`pass`)
+- Clear experiment results with actual values, errors, and matcher results
 
 ![A researcher experimenting with Ruby code](https://github.com/fixrb/test_tube/raw/main/img/social-media-preview.png)
 
@@ -32,14 +36,29 @@ gem install test_tube
 
 ## Usage
 
-To make __TestTube__ available:
+### Basic Usage
+
+First, make TestTube available:
 
 ```ruby
 require "test_tube"
 ```
 
-Assuming we'd like to experiment on the answer to the Ultimate Question of Life,
-the Universe, and Everything with the following matcher:
+TestTube provides two main ways to conduct experiments:
+
+1. **Execute and test code** with `invoke`:
+   - Safely executes blocks of code
+   - Catches ALL exceptions, including system-level ones
+   - Perfect for testing potentially dangerous operations
+
+2. **Test direct values** with `pass`:
+   - Tests pre-computed values
+   - Simpler and more direct approach
+   - Ideal when you already have the value to test
+
+### Simple Example
+
+Let's test if a value equals 42 using a custom matcher:
 
 ```ruby
 class BeTheAnswer
@@ -47,40 +66,25 @@ class BeTheAnswer
     42.equal?(yield)
   end
 end
-```
 
-One possibility would be to `invoke` a whole block of code:
-
-```ruby
-block_of_code = -> { "101010".to_i(2) }
-
-experiment = TestTube.invoke(matcher: BeTheAnswer.new, negate: false, &block_of_code)
-# => <TestTube actual=42 error=nil got=true>
-
+# Using invoke to execute code
+experiment = TestTube.invoke(matcher: BeTheAnswer.new, negate: false) do
+  "101010".to_i(2) # Converting binary to decimal
+end
+experiment.got    # => true
 experiment.actual # => 42
 experiment.error  # => nil
+
+# Or using pass with a direct value
+experiment = TestTube.pass(42, matcher: BeTheAnswer.new, negate: false)
 experiment.got    # => true
-```
-
-An alternative would be to `pass` directly the actual value as a parameter:
-
-```ruby
-actual_value = "101010".to_i(2)
-
-experiment = TestTube.pass(actual_value, matcher: BeTheAnswer.new, negate: false)
-# => <TestTube actual=42 error=nil got=true>
-
 experiment.actual # => 42
 experiment.error  # => nil
-experiment.got    # => true
 ```
 
-### __Matchi__ matchers
+### Integration with Matchi
 
-To facilitate the addition of matchers, a collection is available via the
-[Matchi project](https://github.com/fixrb/matchi/).
-
-Let's use a built-in __Matchi__ matcher:
+TestTube works seamlessly with the [Matchi](https://github.com/fixrb/matchi/) matcher library:
 
 ```sh
 gem install matchi
@@ -88,49 +92,40 @@ gem install matchi
 
 ```ruby
 require "matchi"
-```
 
-An example of successful experience:
-
-```ruby
+# Testing for exceptions
 experiment = TestTube.invoke(
   matcher: Matchi::RaiseException.new(:NoMethodError),
   negate:  false
 ) { "foo".blank? }
-# => <TestTube actual=#<NoMethodError: undefined method `blank?' for "foo":String> error=nil got=true>
-
-experiment.actual # => #<NoMethodError: undefined method `blank?' for "foo":String>
-experiment.error  # => nil
 experiment.got    # => true
-```
+experiment.actual # => #<NoMethodError: undefined method `blank?' for "foo":String>
 
-Another example of an experiment that fails:
-
-```ruby
+# Testing floating-point arithmetic
 experiment = TestTube.invoke(
   matcher: Matchi::Be.new(0.3),
-  negate:  false,
-  &-> { 0.1 + 0.2 }
-) # => <TestTube actual=0.30000000000000004 error=nil got=false>
-
-experiment.actual # => 0.30000000000000004
-experiment.error  # => nil
+  negate:  false
+) { 0.1 + 0.2 }
 experiment.got    # => false
-```
+experiment.actual # => 0.30000000000000004
 
-Finally, an experiment which causes an error:
-
-```ruby
+# Handling errors gracefully
 experiment = TestTube.invoke(
   matcher: Matchi::Match.new(/^foo$/),
   negate:  false
 ) { BOOM }
-# => <TestTube actual=nil error=#<NameError: uninitialized constant BOOM> got=nil>
-
-experiment.actual # => nil
-experiment.error  # => #<NameError: uninitialized constant BOOM>
 experiment.got    # => nil
+experiment.error  # => #<NameError: uninitialized constant BOOM>
+experiment.actual # => nil
 ```
+
+## Key Features
+
+- **Safe Execution**: Catches all exceptions, including system-level ones
+- **Flexible Testing**: Support for custom matchers and the Matchi library
+- **Clear Results**: Easy access to actual values, errors, and test results
+- **Two Testing Modes**: Choose between code execution and direct value testing
+- **Framework Friendly**: Perfect for building testing frameworks and tools
 
 ## Contact
 
@@ -140,7 +135,7 @@ experiment.got    # => nil
 
 ## Versioning
 
-__Test Tube__ follows [Semantic Versioning 2.0](https://semver.org/).
+Test Tube follows [Semantic Versioning 2.0](https://semver.org/).
 
 ## License
 
